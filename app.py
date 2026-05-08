@@ -1,6 +1,8 @@
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -43,3 +45,10 @@ axes[2].set_title('Marketing Spend vs Profit')
 
 plt.tight_layout()
 plt.show()
+
+# Now let's do the cross-validation of the training dataset 
+model = LinearRegression()
+
+cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+print(f"Cross-Validation Scores: {cv_scores}")
+print(f"Average CV Score: {np.mean(cv_scores):.4f}")
