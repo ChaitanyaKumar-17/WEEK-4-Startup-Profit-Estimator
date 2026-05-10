@@ -52,3 +52,6 @@ model = LinearRegression()
 cv_scores = cross_val_score(model, X_train, y_train, cv=5)
 print(f"Cross-Validation Scores: {cv_scores}")
 print(f"Average CV Score: {np.mean(cv_scores):.4f}")
+
+# Now let's fit the model
+model.fit(X_train, y_train)
