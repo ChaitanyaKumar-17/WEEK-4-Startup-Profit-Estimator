@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.linear_model import Ridge, Lasso
+
 
 # Loading the dataset
 url = "https://raw.githubusercontent.com/krishnaik06/Multiple-Linear-Regression/master/50_Startups.csv"
@@ -66,26 +68,26 @@ print(f"Train R²: {r2_score(y_train, y_train_pred_lr):.4f} | Test R²: {r2_scor
 print(f"Train RMSE: {np.sqrt(mean_squared_error(y_train, y_train_pred_lr)):.2f} | Test RMSE: {np.sqrt(mean_squared_error(y_test, y_test_pred_lr)):.2f}")
 
 
+# L1 nad L2 Regularization
+ridge_model = Ridge(alpha=10.0)
+lasso_model = Lasso(alpha=100.0)
 
-# ridge_model = Ridge(alpha=10.0) # Using a higher alpha to force some regularization
-# lasso_model = Lasso(alpha=100.0)
+ridge_model.fit(X_train, y_train)
+lasso_model.fit(X_train, y_train)
 
-# ridge_model.fit(X_train, y_train)
-# lasso_model.fit(X_train, y_train)
+y_train_pred_ridge = ridge_model.predict(X_train)
+y_test_pred_ridge = ridge_model.predict(X_test)
 
-# y_train_pred_ridge = ridge_model.predict(X_train)
-# y_test_pred_ridge = ridge_model.predict(X_test)
+y_train_pred_lasso = lasso_model.predict(X_train)
+y_test_pred_lasso = lasso_model.predict(X_test)
 
-# y_train_pred_lasso = lasso_model.predict(X_train)
-# y_test_pred_lasso = lasso_model.predict(X_test)
+print("\n--- Ridge Regression Performance ---")
+print(f"Train R²: {r2_score(y_train, y_train_pred_ridge):.4f} | Test R²: {r2_score(y_test, y_test_pred_ridge):.4f}")
+print(f"Train RMSE: {np.sqrt(mean_squared_error(y_train, y_train_pred_ridge)):.2f} | Test RMSE: {np.sqrt(mean_squared_error(y_test, y_test_pred_ridge)):.2f}")
 
-# print("\n--- Ridge Regression Performance ---")
-# print(f"Train R²: {r2_score(y_train, y_train_pred_ridge):.4f} | Test R²: {r2_score(y_test, y_test_pred_ridge):.4f}")
-# print(f"Train RMSE: {np.sqrt(mean_squared_error(y_train, y_train_pred_ridge)):.2f} | Test RMSE: {np.sqrt(mean_squared_error(y_test, y_test_pred_ridge)):.2f}")
-
-# print("\n--- Lasso Regression Performance ---")
-# print(f"Train R²: {r2_score(y_train, y_train_pred_lasso):.4f} | Test R²: {r2_score(y_test, y_test_pred_lasso):.4f}")
-# print(f"Train RMSE: {np.sqrt(mean_squared_error(y_train, y_train_pred_lasso)):.2f} | Test RMSE: {np.sqrt(mean_squared_error(y_test, y_test_pred_lasso)):.2f}")
+print("\n--- Lasso Regression Performance ---")
+print(f"Train R²: {r2_score(y_train, y_train_pred_lasso):.4f} | Test R²: {r2_score(y_test, y_test_pred_lasso):.4f}")
+print(f"Train RMSE: {np.sqrt(mean_squared_error(y_train, y_train_pred_lasso)):.2f} | Test RMSE: {np.sqrt(mean_squared_error(y_test, y_test_pred_lasso)):.2f}")
 
 # # ==========================================
 # # 3. Analyze Coefficients 
