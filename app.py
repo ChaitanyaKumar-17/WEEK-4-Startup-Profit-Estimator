@@ -89,16 +89,15 @@ print("\n--- Lasso Regression Performance ---")
 print(f"Train R²: {r2_score(y_train, y_train_pred_lasso):.4f} | Test R²: {r2_score(y_test, y_test_pred_lasso):.4f}")
 print(f"Train RMSE: {np.sqrt(mean_squared_error(y_train, y_train_pred_lasso)):.2f} | Test RMSE: {np.sqrt(mean_squared_error(y_test, y_test_pred_lasso)):.2f}")
 
-# # ==========================================
-# # 3. Analyze Coefficients 
-# # ==========================================
-# print("\n--- Coefficient Analysis (Multiple Linear Regression) ---")
-# coef_df = pd.DataFrame({
-#     'Feature': X.columns, 
-#     'Coefficient': model.coef_
-# })
-# # Sort by the absolute impact on profit
-# print(coef_df.sort_values(by='Coefficient', ascending=False, key=abs))
+
+# Coefficients Analysis
+print("\n--- Coefficient Analysis (Multiple Linear Regression) ---")
+coef_df = pd.DataFrame({
+    'Feature': X.columns, 
+    'Coefficient': model.coef_
+})
+# Sort by the absolute impact on profit
+print(coef_df.sort_values(by='Coefficient', ascending=False, key=abs))
 
 # # ==========================================
 # # 4. Plot Predicted vs Actual & Residuals
