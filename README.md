@@ -1,52 +1,55 @@
-# Image Compression and Dimensionality Reduction Using SVD
+# Startup Profit Estimator Using Multiple Linear Regression
 
-A comprehensive Python project designed to ingest image data, apply linear algebra—specifically Singular Value Decomposition (SVD)—and drastically reduce memory footprint while mathematically preserving structural integrity. This project utilizes Python's core scientific stack to simulate real-world mathematical optimization and data compression workflows.
+A robust Python machine learning project designed to ingest financial data from startups, perform exploratory data analysis, and predict overall profitability based on operational expenditures. This project emphasizes comprehensive model evaluation by comparing standard Multiple Linear Regression against advanced Ridge (L2) and Lasso (L1) regularization techniques.
 
 ## 💡 Overview
 
-Real-world machine learning systems operate under strict hardware and memory constraints. This project automates the foundational linear algebra workflow of dimensionality reduction. It reads a standard image dataset, strictly correctly strips unnecessary color channels to format a mathematically valid 2D grayscale matrix, performs Singular Value Decomposition, and outputs a reconstructed image using a truncated number of singular values. This proves that massive storage savings can be achieved with minimal mathematical or visual loss.
+Predicting business profitability requires understanding the nuanced relationships between different investment channels (R&D, Administration, Marketing) and geographical factors. This project automates the end-to-end regression workflow. It fetches startup financial data, handles categorical encoding, visually maps feature correlations, and evaluates predictive accuracy using cross-validation. By deploying Ridge and Lasso models alongside the base regression, it demonstrates how to handle potential multicollinearity and constrain model weights for better generalization.
 
 ## ✨ Features
 
-* **Rigorous Data Hygiene:** Safely slices image arrays to extract strictly RGB channels, utilizing dot-product luminosity weights to convert the data into a 2D grayscale matrix, preventing shape mismatches during calculation.
-* **Economy-Size Computation:** Enforces `full_matrices=False` during NumPy's SVD calculation. This bypasses the generation of redundant, empty vectors, preventing catastrophic out-of-memory errors on limited hardware.
-* **Mathematical Truncation:** Reconstructs the image matrix using only the top $k$ singular values, effectively filtering out low-variance structural data while retaining the core visual patterns.
-* **Objective Verification:** Calculates the exact Mean Squared Error (MSE) and storage compression ratio to factually ground the quality-versus-size trade-off.
-* **Visual Comparison:** Generates strictly accurate, side-by-side plots to visually verify the fidelity of the compressed mathematical reconstruction against the original.
+* **Exploratory Data Analysis (EDA):** Automatically generates Seaborn-powered scatter plots to visually establish the correlation between different spending categories (R&D, Admin, Marketing) and the target variable (Profit).
+* **Categorical Preprocessing:** Utilizes `scikit-learn`'s `OneHotEncoder` to transform nominal geographic data (`State`) into mathematically usable, dummy-variable matrices.
+* **Cross-Validation Protocol:** Employs 5-fold cross-validation on the training set to ensure the model's performance metrics are statistically robust and not the result of a lucky data split.
+* **Regularization Comparison:** Trains standard Multiple Linear Regression alongside Ridge ($\alpha=10.0$) and Lasso ($\alpha=100.0$) models to objectively compare test-set R² and RMSE across different mathematical constraints.
+* **Diagnostic Visualization:** Outputs an "Actual vs. Predicted" scatter plot overlaid with a line of perfect prediction, as well as a kernel density estimate (KDE) of the residuals to verify homoscedasticity.
 
 ## 🛠️ Prerequisites
 
 * Python 3.8 or higher
 * A standard Python IDE (VS Code, PyCharm) or Jupyter Notebook
-* Core Scientific Libraries: `numpy`, `matplotlib`, `scikit-learn`
+* Core Scientific Libraries: `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`
 
 ## 🚀 Usage
 
 1. Clone this repository to your local machine.
 2. Open your terminal or command prompt and install the necessary dependencies:
 
-   ```bash
-   pip install numpy matplotlib scikit-learn
-   ```
+    ```bash
+    pip install pandas numpy scikit-learn matplotlib seaborn
+    ```
+
 3. Launch your Python environment or execute the script directly:
-   ```bash
-   python app.py
-   ```
-4. Adjust the $k$ parameter in the source code to independently verify the mathematical thresholds of image degradation.
+
+    ```bash
+    python app.py
+    ```
 
 ## 📊 Expected Output
 
-Upon successful execution, the script will process the raw image array in memory and output fact-grounded terminal metrics alongside an analytical visualization, including:
+Upon successful execution, the script will process the financial data and output fact-grounded terminal metrics alongside analytical visualizations:
 
-1. **Matrix Diagnostics:** Terminal output verifying the dimensions of the original image, and the resulting $U$, $\Sigma$, and $V^T$ matrices to ensure correct factorization.
-2. **Objective Metrics:** Terminal output stating the exact calculated Mean Squared Error (MSE) and the multiplier for the compression ratio based on your chosen $k$ value.
-3. **Visual Comparison Window:** A side-by-side Matplotlib pop-up displaying the original high-fidelity grayscale matrix next to the truncated reconstruction.
+1. **EDA Window:** A side-by-side Matplotlib pop-up displaying scatter plots of R&D, Administration, and Marketing spend versus overall Profit.
+2. **Terminal Diagnostics:** * The average 5-fold Cross-Validation score.
+   * R² (variance explained) and RMSE (error margin) metrics for the standard MLR, Ridge, and Lasso models.
+   * A sorted DataFrame calculating the exact mathematical weight (Coefficient) each feature holds in predicting profit.
+3. **Evaluation Window:** A final Matplotlib pop-up showing the model's prediction accuracy (Actual vs. Predicted) and the distribution of its prediction errors (Residuals).
 
 ## 🧩 How It Works (Under the Hood)
 
-This script serves as a practical application of foundational linear algebra using NumPy:
+This script serves as a practical application of predictive financial modeling:
 
-1. **File I/O & Preprocessing:** The script loads a standard test image using `sklearn.datasets.load_sample_image()`. It transforms the 3D RGB array into a strictly 2D grayscale matrix using standard mathematical luminosity weights.
-2. **Linear Algebra Computation:** `np.linalg.svd()` factorizes the image matrix into orthonormal bases ($U$, $V^T$) and a 1D array of descending singular values ($\Sigma$), strictly bounded by the memory-efficient economy-size optimization.
-3. **Matrix Truncation & Reconstruction:** The algorithm dynamically isolates the first $k$ columns of $U$, the top $k \times k$ diagonal block of $\Sigma$, and the top $k$ rows of $V^T$. It then computes the nested dot products (`np.dot()`) to build the compressed approximation matrix.
-4. **Synthesis:** Scikit-Learn's metrics module calculates the error rate between the original and reconstructed matrices, while Matplotlib synthesizes the mathematical output into a human-readable visual report.
+1. **Data Ingestion & Cleaning:** The script reads the `50_Startups.csv` directly from a remote repository. It identifies the categorical `State` column and applies One-Hot Encoding to convert it into binary vectors, appending them to the main DataFrame.
+2. **Train/Test Splitting:** The data is split into a 70% training and 30% testing set to strictly prevent data leakage and evaluate how well the model generalizes to unseen financial data.
+3. **Modeling & Regularization:** The baseline model fits a multidimensional hyperplane to the training data using Ordinary Least Squares (Linear Regression). It then applies L2 (Ridge) and L1 (Lasso) penalties to shrink the coefficients of less important features, mitigating overfitting.
+4. **Synthesis:** The script calculates R² and Root Mean Squared Error (RMSE) to quantify the prediction gap, whilst extracting and sorting the linear coefficients to determine which financial metric (e.g., R&D Spend) drives the highest ROI.
